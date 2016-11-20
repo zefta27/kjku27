@@ -4,7 +4,8 @@ morgan = require('morgan'),
 compress = require('compression'),
 bodyParser = require('body-parser'),
 methodOverride = require('method-override'),
-session = require('express-session');
+session = require('express-session'),
+flash = require('connect-flash'),
 passport = require('passport');
 
 var uri = 'mongodb://localhost/kajianku-db';
@@ -34,6 +35,7 @@ module.exports = function(){
   app.set('views','./app/views'); //EJS INCLUDE START
   app.set('view engine','ejs'); // THIS TOO
 
+  app.use(flash());
   app.use(passport.initialize());
   app.use(passport.session());
 
