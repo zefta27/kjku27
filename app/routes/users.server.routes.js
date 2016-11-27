@@ -30,4 +30,31 @@ module.exports = function (app) {
     }));
 
     app.get('/signout', users.signout);
+
+    app.get('/oauth/facebook/:id', function(req,res,next) {
+        passport.authenticate(
+          'facebook',
+           {callbackURL:"/oauth/facebook/callback/"+req.params.id}
+        ) (req,res,next);
+    });
+
+    // app.get('/oauth/facebook', passport.authenticate('facebook',{
+    //   failureRedirect : '/signin'
+    // }));
+
+    // app.get('/oauth/facebook/callback/:id', passport.authenticate('facebook',{
+    //   failureRedirect: '/signin',
+    //   successRedirect: '/'
+    // }));
+
+    app.get('/oauth/facebook/callback/:id', function (req,res,next) {
+      passport.authenticate(
+        'facebook',
+        {
+          callbackURL: "/oauth/facebook/callback/"+req.params.id
+          , successRedirect : "/"
+          , failureRedirect : "/signin"
+        }
+      ) (req, res, next);
+    });
 };
